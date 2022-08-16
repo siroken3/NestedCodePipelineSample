@@ -1,13 +1,18 @@
 import { pipelines, Stack, StackProps, Stage, StageProps } from "aws-cdk-lib";
 import { Repository } from "aws-cdk-lib/aws-ecr";
 import { Construct } from "constructs";
+import { ISubnet, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { Cluster } from 'aws-cdk-lib/aws-ecs';
 
-type AppPipelineStackProps = StackProps & {
-    clusterName: string,
-    vpcId: string,
-    subnetIds: Array<string>,
-    securityGroupIds: Array<string>,
-};
+export type EcsClusterSpecProps = {
+    readonly cluster: Cluster;
+    readonly vpc: Vpc;
+    readonly subnets: ISubnet[];
+    readonly securityGroups: Array<string>;
+    readonly ecrRepository: Repository;
+}
+
+export type AppPipelineStackProps = StackProps & EcsClusterSpecProps;
 
 export class AppPipelineStack extends Stack {
     constructor(scope: Construct, id: string, props: AppPipelineStackProps) {
@@ -28,17 +33,10 @@ export class AppPipelineStack extends Stack {
         });
 
         const wave = pipeline.addWave('ScheduledTaskWave');
-        const clusterName = '';
-        const vpcId = '';
-        const subnetIds = [
-
-        ];
-        const securityGroupIds = [
-
-        ];
         wave.addStage(new class extends Stage {
             constructor(scope: Construct, id: string, stageProps?: StageProps) {
                 super(scope, id, stageProps);
+
             }
         }(this, 'ScheduledTask1'));
         wave.addStage(new class extends Stage {
