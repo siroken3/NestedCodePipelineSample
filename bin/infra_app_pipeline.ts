@@ -6,4 +6,5 @@ import { InfraPipelineStack } from '../lib/infra_pipeline-stack';
 const app = new cdk.App();
 new InfraPipelineStack(app, 'RootCodePipelineStack', {
   connectionArn: app.node.tryGetContext("ConnectionArn") as string,
+  githubRepo: app.node.tryGetContext("GitHubRepo") as string,
 });

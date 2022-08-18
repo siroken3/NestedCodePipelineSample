@@ -7,6 +7,7 @@ import { App1InfraStack } from './app_pipelines/app1/infra-stack';
 
 type InfraPipelineStackProps = cdk.StackProps & {
   connectionArn: string,
+  githubRepo: string,
 }
 
 export class InfraPipelineStack extends cdk.Stack {
@@ -17,7 +18,7 @@ export class InfraPipelineStack extends cdk.Stack {
       pipelineName: 'rootCodePipeline',
       selfMutation: true,
       synth: new pipelines.ShellStep('RootPipelineSynth', {
-        input: pipelines.CodePipelineSource.connection('', 'main', {
+        input: pipelines.CodePipelineSource.connection(props.githubRepo, 'main', {
           connectionArn: props.connectionArn,
         }),
         installCommands: [
@@ -26,7 +27,7 @@ export class InfraPipelineStack extends cdk.Stack {
         commands: [
           'npm ci',
           'npm run build',
-          `npx cdk synth -c ConnectionArn=${props?.connectionArn}`,
+          `npx cdk synth -c ConnectionArn=${props.connectionArn} -c githubRepo=${props.githubRepo}`,
         ]
       }),
     });

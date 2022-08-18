@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/nested_code_pipeline_sample.ts",
+  "app": "npx ts-node --prefer-ts-exts bin/infra_app_pipeline.ts",
   "watch": {
     "include": [
       "**"
@@ -35,6 +35,7 @@
     "@aws-cdk/core:target-partitions": [
       "aws",
       "aws-cn"
-    ]
+    ],
+    "GitHubRepo": "siroken3/NestedCodePipelineSample"
   }
 }

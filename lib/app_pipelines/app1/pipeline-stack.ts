@@ -36,7 +36,6 @@ export class AppPipelineStack extends Stack {
         wave.addStage(new class extends Stage {
             constructor(scope: Construct, id: string, stageProps?: StageProps) {
                 super(scope, id, stageProps);
-
             }
         }(this, 'ScheduledTask1'));
         wave.addStage(new class extends Stage {
