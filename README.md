@@ -1,14 +1,42 @@
-# Welcome to your CDK TypeScript project
+# Nested CodePipeline Sample
 
-This is a blank project for CDK development with TypeScript.
+This is a sample repository for Nexted Codepipeline. This repository contains the following patterns.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+* Building both applications and its Infrastracture codepipeline
 
-## Useful commands
+## Prerequirement
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+* An AWS account
+* CDK 2.38.0
+
+## Setup
+
+### CreateCodeStar Connections to GitHub
+
+Please see: [Official Document: Developer Tools console](https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-create-github.html)
+
+### bootstrap CDK
+
+You need to setup CDK project to target AWS account. 
+
+```console
+$ export AWS_PROFILE=<AWS_PROFILE | default>
+$ export AWS_ACCOUNT_ID=<AWS_ACCOUNT_ID>
+$ export AWS_DEFAULT_REGION=<AWS_REGION>
+$ export CONNECTION_ARN=<CodeStarConnection>
+$ npx cdk bootstrap -c ConnectionArn=$CONNECTION_ARN aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION
+```
+
+## Deploy
+
+Before deploy, check the difference.
+
+```console
+$ cdk diff -c ConnectionArn=$CONNECTION_ARN
+```
+
+Then, deploy as the follows.
+
+```console
+$ cdk deploy -c ConnectionArn=$CONNECTION_ARN
+```
