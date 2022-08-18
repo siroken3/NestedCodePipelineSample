@@ -1,7 +1,7 @@
 # Nested CodePipeline Sample
 
-**Waning**
-This repository is under constraction!
+> **Waning**
+> This repository is under constraction!
 
 This is a sample repository for Nexted Codepipeline. This repository contains the following patterns.
 
