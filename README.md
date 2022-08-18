@@ -7,7 +7,8 @@ This is a sample repository for Nexted Codepipeline. This repository contains th
 ## Prerequirement
 
 * An AWS account
-* CDK 2.38.0
+* AWS CLI v2
+* CDK 2
 
 ## Setup
 
@@ -24,7 +25,10 @@ $ export AWS_PROFILE=<AWS_PROFILE | default>
 $ export AWS_ACCOUNT_ID=<AWS_ACCOUNT_ID>
 $ export AWS_DEFAULT_REGION=<AWS_REGION>
 $ export CONNECTION_ARN=<CodeStarConnection>
-$ npx cdk bootstrap -c ConnectionArn=$CONNECTION_ARN aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION
+```
+
+```console
+cdk bootstrap -c ConnectionArn=$CONNECTION_ARN aws://$AWS_ACCOUNT_ID/$AWS_DEFAULT_REGION
 ```
 
 ## Deploy

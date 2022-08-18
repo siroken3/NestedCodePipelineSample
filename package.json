@@ -2,7 +2,7 @@
   "name": "nested_code_pipeline_sample",
   "version": "0.1.0",
   "bin": {
-    "nested_code_pipeline_sample": "bin/nested_code_pipeline_sample.js"
+    "infra_app_pipeline": "bin/infra_app_pipeline.js"
   },
   "scripts": {
     "build": "tsc",
