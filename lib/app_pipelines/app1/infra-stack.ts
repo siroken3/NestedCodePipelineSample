@@ -42,11 +42,11 @@ export class App1InfraStack extends cdk.Stack {
             ],
         });
         // ECS
-        const cluster = new Cluster(this, 'appCluster', {
+        new Cluster(this, 'appCluster', {
             clusterName: config.clusterName,
             vpc: vpc,
         });
-        const repository = new Repository(this, 'ecrRepository', {
+        new Repository(this, 'ecrRepository', {
             repositoryName: config.ecrRepository,
         });
     }

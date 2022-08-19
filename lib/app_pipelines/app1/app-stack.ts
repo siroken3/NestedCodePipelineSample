@@ -1,8 +1,8 @@
-import { Arn, Stack, StackProps } from "aws-cdk-lib";
-import { Construct } from "constructs";
-import { ISecurityGroup, ISubnet, SecurityGroup, SubnetType, Subnet, SubnetSelection, Vpc, SubnetFilter } from 'aws-cdk-lib/aws-ec2';
-import { Cluster, ContainerImage, FargateService, FargateTaskDefinition, LogDriver, Protocol } from 'aws-cdk-lib/aws-ecs';
+import { Stack, StackProps } from "aws-cdk-lib";
+import { ISecurityGroup, SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { Cluster, ContainerImage, FargateService, FargateTaskDefinition, Protocol } from 'aws-cdk-lib/aws-ecs';
 import { Role } from "aws-cdk-lib/aws-iam";
+import { Construct } from "constructs";
 import * as config from './config';
 
 export class AppTask1Stack extends Stack {
@@ -11,7 +11,7 @@ export class AppTask1Stack extends Stack {
         const vpc = Vpc.fromLookup(this, 'vpcRef', {
             vpcName: config.vpcName,
         });
-        const securityGroups:Array<ISecurityGroup> = [
+        const securityGroups: Array<ISecurityGroup> = [
             SecurityGroup.fromLookupByName(this, 'securityGroupRef', 'default', vpc),
         ];
         const cluster = Cluster.fromClusterAttributes(this, `clusterRef`, {
@@ -21,8 +21,8 @@ export class AppTask1Stack extends Stack {
         });
         const image = ContainerImage.fromRegistry(config.ecrRepository);
         const serviceTaskDefinition = new FargateTaskDefinition(this, 'ServiceTaskDefinition', {
-           executionRole: Role.fromRoleName(this, 'executionRoleRef', config.executionRole),
-           taskRole: Role.fromRoleName(this, 'serviceTaskRoleRef', config.serviceTaskRole),
+            executionRole: Role.fromRoleName(this, 'executionRoleRef', config.executionRole),
+            taskRole: Role.fromRoleName(this, 'serviceTaskRoleRef', config.serviceTaskRole),
         });
         serviceTaskDefinition.addContainer('serviceTaskContainerDefinition', {
             image,
@@ -30,7 +30,8 @@ export class AppTask1Stack extends Stack {
             containerPort: 3000,
             protocol: Protocol.TCP,
         });
-        const app1Service = new FargateService(this, 'ServiceDefinition', {
+        
+        new FargateService(this, 'ServiceDefinition', {
             cluster: cluster,
             serviceName: 'helloWorld',
             assignPublicIp: false,
