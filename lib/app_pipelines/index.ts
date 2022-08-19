@@ -1,2 +1,3 @@
-export * as app_pipeline1 from './app1/pipeline-stack';
-export * as app_infra1 from './app1/infra-stack';
+export * as app1 from './app1/app-stack';
+export * as app1_pipeline from './app1/pipline-stack';
+export * as app1_infra from './app1/infra-stack';

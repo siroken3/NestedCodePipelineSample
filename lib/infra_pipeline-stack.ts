@@ -2,7 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as pipelines from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
 
-import { app_pipeline1, app_infra1 } from './app_pipelines';
+import { app1_pipeline, app1_infra } from './app_pipelines';
 import { App1InfraStack } from './app_pipelines/app1/infra-stack';
 
 type InfraPipelineStackProps = cdk.StackProps & {
@@ -32,7 +32,7 @@ export class InfraPipelineStack extends cdk.Stack {
       }),
     });
 
-    let infra: app_infra1.App1InfraStack;
+    let infra: app1_infra.App1InfraStack;
     infraPipeline.addStage(new class extends cdk.Stage {
       constructor(scope: Construct, id: string, props?: cdk.StageProps) {
         super(scope, id, props);
@@ -43,7 +43,13 @@ export class InfraPipelineStack extends cdk.Stack {
     infraPipeline.addStage(new class extends cdk.Stage {
       constructor(scope: Construct, id: string, props?: cdk.StageProps) {
         super(scope, id, props);
-        new app_pipeline1.AppPipelineStack(this, 'App1Pipeline', infra.specprops);
+        new app1_pipeline.AppPipelineStack(this, 'App1Pipeline', {
+          // Due to use Vpc.fromLookup() in AppPipelineStack, we need `env` property
+          env: {
+            account: process.env.CDK_DEFAULT_ACCOUNT,
+            region: process.env.CDK_DEFAULT_REGION,
+          }
+        });
       }
     }(this, 'App1PipelineStackStage'));
   }
