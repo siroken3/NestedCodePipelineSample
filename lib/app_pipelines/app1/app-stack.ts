@@ -12,7 +12,7 @@ export class AppTask1Stack extends Stack {
             vpcName: config.vpcName,
         });
         const securityGroups:Array<ISecurityGroup> = [
-            SecurityGroup.fromSecurityGroupId(this, 'securityGroupRef', ''),
+            SecurityGroup.fromLookupByName(this, 'securityGroupRef', 'default', vpc),
         ];
         const cluster = Cluster.fromClusterAttributes(this, `clusterRef`, {
             clusterName: config.clusterName,
@@ -30,17 +30,14 @@ export class AppTask1Stack extends Stack {
             containerPort: 3000,
             protocol: Protocol.TCP,
         });
-        /*
         const app1Service = new FargateService(this, 'ServiceDefinition', {
             cluster: cluster,
             serviceName: 'helloWorld',
             assignPublicIp: false,
             taskDefinition: serviceTaskDefinition,
-            securityGroups: securityGroups,
             vpcSubnets: {
                 subnetType: SubnetType.PRIVATE_ISOLATED,
             }
         });
-        */
     }
 };
