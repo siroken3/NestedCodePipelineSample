@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import * as pipelines from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
 
@@ -17,7 +18,7 @@ export class InfraPipelineStack extends cdk.Stack {
     const infraPipeline = new pipelines.CodePipeline(this, 'rootCodePipeline', {
       pipelineName: 'rootCodePipeline',
       selfMutation: true,
-      synth: new pipelines.ShellStep('RootPipelineSynth', {
+      synth: new pipelines.CodeBuildStep('RootPipelineSynth', {
         input: pipelines.CodePipelineSource.connection(props.githubRepo, 'main', {
           connectionArn: props.connectionArn,
         }),
@@ -28,6 +29,17 @@ export class InfraPipelineStack extends cdk.Stack {
           'npm ci',
           'npm run build',
           `npx cdk synth -c ConnectionArn=${props.connectionArn} -c githubRepo=${props.githubRepo}`,
+        ],
+        rolePolicyStatements: [
+          new iam.PolicyStatement({
+            actions: ['sts:AssumeRole'],
+            resources: ['*'],
+            conditions: {
+              StringEquals: {
+                'iam:ResourceTag/aws-cdk:bootstrap-role': 'lookup',
+              }
+            }
+          })
         ]
       }),
     });
