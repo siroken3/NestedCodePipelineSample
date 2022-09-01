@@ -23,7 +23,7 @@ export class App1InfraStack extends cdk.Stack {
         });
 
         // VPC
-        const vpc = new Vpc(this, 'appVpc', {
+        const vpc = new Vpc(this, 'app-vpc', {
             vpcName: config.vpcName,
             maxAzs: 2,
             subnetConfiguration: [
@@ -34,11 +34,7 @@ export class App1InfraStack extends cdk.Stack {
                 {
                     name: 'Private',
                     subnetType: SubnetType.PRIVATE_WITH_NAT,
-                },
-                {
-                    name: 'Isolated',
-                    subnetType: SubnetType.PRIVATE_ISOLATED,
-                },
+                }
             ],
         });
         // ECS

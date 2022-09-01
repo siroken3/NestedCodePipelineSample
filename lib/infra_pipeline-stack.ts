@@ -45,13 +45,14 @@ export class InfraPipelineStack extends cdk.Stack {
     });
 
     let infra: app1_infra.App1InfraStack;
+    /* At first, manually create the following
     infraPipeline.addStage(new class extends cdk.Stage {
       constructor(scope: Construct, id: string, props?: cdk.StageProps) {
         super(scope, id, props);
         infra = new App1InfraStack(this, 'Infra');
       }
     }(this, 'InfraStackStage'));
-
+    */
     infraPipeline.addStage(new class extends cdk.Stage {
       constructor(scope: Construct, id: string, props?: cdk.StageProps) {
         super(scope, id, props);
